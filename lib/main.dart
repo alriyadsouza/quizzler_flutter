@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler_flutter/quiz_brain.dart';
+
+QuizBrain quizBrain=QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -32,11 +35,17 @@ class _QuizPageState extends State<QuizPage> {
   int questionNumber=0;
   List<Widget> scoreKeeper=[];
 
-  List<String> questions=[
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.'
-  ];
+  // List<String> questions=[
+  //   'You can lead a cow down stairs but not up stairs.',
+  //   'Approximately one quarter of human bones are in the feet.',
+  //   'A slug\'s blood is green.'
+  // ];
+  //
+  // List<bool> answers=[
+  //   false,
+  //   true,
+  //   true,
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +59,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber],
+                quizBrain.questionBank[questionNumber].questionText,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 25.0,
@@ -76,12 +85,16 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                bool correctAnswers= quizBrain.questionBank[questionNumber].questionAnswer;
+                if(correctAnswers== true)
+                {
+                  print('User got it right');
+                }
+                else
+                {
+                  print('user got it wrong');
+                }
                 setState(() {
-                  scoreKeeper.add(
-                      const Icon(
-                        Icons.check, color: Colors.green,
-                      ),
-                  );
                   questionNumber++;
                 });
               },
@@ -103,15 +116,17 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                bool correctAnswers = quizBrain.questionBank[questionNumber].questionAnswer;
+                if (correctAnswers == false) {
+                  print('User got it right');
+                }
+                else {
+                  print('user got it wrong');
+                }
                 setState(() {
-                  scoreKeeper.add(
-                    const Icon(
-                      Icons.close, color: Colors.red,
-                    ),
-                  );
                   questionNumber++;
                 });
-              },
+              }
             ),
           ),
         ),
