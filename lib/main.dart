@@ -1,23 +1,22 @@
+
 import 'package:flutter/material.dart';
 import 'package:quizzler_flutter/quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
-QuizBrain quizBrain = QuizBrain();
+
 
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
-  const Quizzler({super.key});
-
   @override
   Widget build(BuildContext context) {
+    QuizBrain quizBrain = QuizBrain(context); // Pass the context here
+
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.grey.shade900,
-        body: const SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: QuizPage(),
-          ),
+        body: SafeArea(
+          child: QuizPage(),
         ),
       ),
     );
@@ -47,6 +46,13 @@ class _QuizPageState extends State<QuizPage> {
   //   true,
   // ];
 
+  late QuizBrain quizBrain;
+
+  @override
+  void initState() {
+    super.initState();
+    quizBrain = QuizBrain(context as BuildContext); // Pass the context here as well
+  }
   void checkAnswer(bool userPickedAnswer) {
     bool correctAnswers = quizBrain.getCorrectAnswer();
     if (userPickedAnswer == correctAnswers) {
@@ -63,8 +69,8 @@ class _QuizPageState extends State<QuizPage> {
       print('user got it wrong');
       scoreKeeper.add(
         const Icon(
-          Icons.check,
-          color: Colors.green,
+          Icons.close,
+          color: Colors.red,
         ),
       );
     }
